@@ -1,26 +1,46 @@
-// import { createServer } from 'node:http';
-
-// const server = createServer((request, response) => {
-//     console.log(`Requisição recebida para: ${request.url}`);
-//    console.log('oi');
-//     response.write('verme');
-//     response.write('doido');
-//     return response.end();
-// });
-
-// server.listen(3333);
-
-
-// POST localhost:3333/videos
-// DELETE localhost:3333/videos/1
-
-import { fastify } from 'fastify'
+import {fastify} from 'fastify'
+import {DatabaseMemory} from "./database_memory.js";
 
 const server = fastify()
 
-server.get('/', () => {return 'verme demais'})
+const database = new DatabaseMemory()
 
-server.get('/verme', () => {return 'verme demais kkkkkkk'})
+server.get('/verme', () => {
+    return database.list()
+})
+
+server.post('/verme', (request, reply) => {
+    const { title, descricao, duracao } = request.body
+
+    database.create({
+        title: title,
+        descricao: descricao,
+        duracao: duracao
+    })
+
+    return reply.status(201).send()
+})
+
+server.put('/verme/:id', (request, reply) => {
+    const videoId = request.params.id
+    const {title, descricao, duracao} = request.body
+
+    database.update(videoId, {
+        title,
+        descricao,
+        duracao,
+    })
+
+    return reply.status(204).send()
+})
+
+server.delete('/verme/:id', (request, reply) => {
+    const videoID = request.params.id
+
+    database.delete(videoID)
+
+    return reply.status(204).send()
+})
 
 server.listen({
     port:3333
