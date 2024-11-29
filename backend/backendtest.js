@@ -1,21 +1,24 @@
 import {fastify} from 'fastify'
-import {DatabaseMemory} from "./database_memory.js";
+import {Database_postgres} from "./database_postgres.js";
 
 const server = fastify()
 
-const database = new DatabaseMemory()
+const database = new Database_postgres()
 
-server.get('/verme', () => {
-    return database.list()
+server.get('/verme', async () => {
+    return await database.list_users()
 })
 
-server.post('/verme', (request, reply) => {
-    const { title, descricao, duracao } = request.body
+server.post('/verme', async (request, reply) => {
+    const { nome, email, senha, data_criacao } = request.body
 
-    database.create({
-        title: title,
-        descricao: descricao,
-        duracao: duracao
+    console.log(nome, email, senha, data_criacao)
+
+    await database.create_user({
+        nome: nome,
+        email: email,
+        senha: senha,
+        data_criacao: data_criacao
     })
 
     return reply.status(201).send()
