@@ -7,6 +7,8 @@
 /dataSources/
 /dataSources.local.xml
 ../node_modules/
-../backend/.env
+../.env
+../package-lock.json
+../package.json
 
 
