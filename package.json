@@ -5,18 +5,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "C:\\Users\\Leonardo\\Desktop\\Platz\\Platz\\backend\\backendtest.js",
-    "dev": "node --watch C:\\Users\\Leonardo\\Desktop\\Platz\\Platz\\backend\\backendtest.js"
+    "start": "node ./backend/api.js",
+    "dev": "node --watch ./backend/api.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^10.0.1",
     "fastify": "^5.1.0",
     "postgres": "^3.4.5"
   },
   "devDependencies": {
+    "concurrently": "^9.1.0",
     "dotenv": "^16.4.5"
   }
 }

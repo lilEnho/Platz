@@ -5,40 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/fonts.css">
-    <title>Landing Page</title>
+    <link rel="icon" type="image/png" href="components\images\kanbom_icon.png">
+    <title>KanBom</title>
 </head>
 <body>
-    <header>
-        <div id="title">
-            <h1>Kan</h1>
-            <h1>Bom</h1>
-        </div>
+<header>
+    <div id="title">
+        <h1>Kan</h1>
+        <h1>Bom</h1>
+    </div>
 
-        <ul>
-            <a href="#"><li>Inicio</li></a>
-            <a href="#"><li>Serviço</li></a>
-            <a href="#"><li>Sobre</li></a>
-            <a href="#"><li>Nosso Time</li></a>
-            <a href="#" id="btn"><li>Não tem uma conta?</li></a>
-        </ul>
-    </header>
-    <main>
-        <aside>
-            <h2><span>Bem vindo</span></h2>
-            <h2>ao Kan Bom</h2>
-            <p>Por favor, informe seu Usuário e senha para continuar               
-            </p>
-            <form >
-                <input type="text" placeholder="Usuário">
-                <input type="email" placeholder="Senha">
-                <input type="submit" value="Enviar >">
-            </form>
-        </aside>
+    <ul>
+        <a href="#"><li>Inicio</li></a>
+        <a href="#"><li>Serviço</li></a>
+        <a href="#"><li>Sobre</li></a>
+        <a href="#"><li>Nosso Time</li></a>
+        <a href="#" id="btn"><li>Não tem uma conta?</li></a>
+    </ul>
+</header>
+<main>
+    <aside>
+        <h2><span>Bem vindo</span></h2>
+        <h2>ao Kan Bom</h2>
+        <p>Por favor, informe seu Usuário e senha para continuar</p>
+        <form id="loginForm">
+            <input type="text" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
 
-        <article>
-            <img src="./components/images/77d0a7c454e658833800528e748edbe9.png" alt="mulher roxa">
-        </article>
+        <!-- Elemento de status do login -->
+        <div id="loginStatus"></div>  <!-- Aqui está o novo elemento -->
 
-    </main>
+    </aside>
+
+    <article>
+        <img src="./components/images/77d0a7c454e658833800528e748edbe9.png" alt="mulher roxa">
+    </article>
+</main>
+<script src="scripts/auth.js"></script>
 </body>
 </html>

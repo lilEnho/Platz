@@ -1,8 +1,14 @@
 import { fastify } from 'fastify';
+import fastifyCors from '@fastify/cors';  // Alteração aqui
 import { Database_postgres } from './database_postgres.js';
 
 const server = fastify();
 const database = new Database_postgres();
+
+server.register(fastifyCors, {
+    origin: "*", // Permite todas as origens (cuidado em produção!)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'] // Permite esses métodos
+});
 
 // USERS
 server.get('/users', async () => {
@@ -76,6 +82,27 @@ server.delete('/tasks/:id', async (request, reply) => {
     await database.delete_task(id);
     return reply.status(204).send();
 });
+
+server.post('/login', async (request, reply) => {
+    const { email, password } = request.body;
+    console.log('Requisição post/login recebida')
+
+    // Busca o usuário no banco de dados.
+    const users = await database.list_users();
+    const user = users.find(u => u.email === email && u.password_hash === password);
+
+    if (user) {
+        // Resposta de sucesso.
+        reply.code(200).send({ success: true, message: 'Login successful!' });
+    } else {
+        // Resposta de erro.
+        reply.code(401).send({ success: false, message: 'Invalid credentials.' });
+    }
+});
+
+
+
+
 
 // Start server
 server.listen({ port: 3333 }, (err, address) => {
