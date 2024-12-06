@@ -1,3 +1,11 @@
+:root {
+    --primary-color: rgb(132,14,201);
+    --column-color: rgb(34, 20, 43);
+    --backgroud-color: rgb(34,34,34);
+    --primary-button: #3d7a0b;
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -7,17 +15,18 @@
 }
 
 body {
-    background-color: rgb(34,34,34);
+    background-color: var(--backgroud-color);
     color: white;
 }
 
-#novaTarefa {
+.primario {
     border: none;
-    background-color: #3d7a0b;
+    background-color: var(--primary-button);
     color: white;
     font-size: 16px;
     padding: 9px 12px;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .header{
@@ -25,7 +34,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(132,14,201);
+    background-color: var(--primary-color);
     padding: 30px;
 }
 
@@ -40,13 +49,13 @@ body {
 .container .coluna {
     width: 250px;
     height: 600px;
-    background-color: rgb(34, 20, 43);
+    background-color: var(--column-color);
     border-radius: 6px;
     overflow: hidden;
 }
 
 .container .coluna .head{
-    background-color:  rgb(132,14,201);
+    background-color:  var(--primary-color);
     padding: 15px;
     text-align: center;
 }
@@ -58,13 +67,13 @@ body {
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
 
     #modal .box{
-        background-color: rgb(132,14,201);
+        background-color: var(--primary-color);
         width: 400px;
         border-radius: 7px;
         overflow: hidden;
@@ -92,35 +101,43 @@ body {
                 color: #DDD;
             }
 
-#modal .box .form{
-    padding: 20px;
-}
+        #modal .box .form{
+            padding: 20px;
+        }
 
-#modal .box .form .form-group {
-    margin-bottom: 15px;
+            #modal .box .form .form-group {
+                margin-bottom: 15px;
 
-}
+            }
 
-#modal .box .form label{
-    display: block;
-    font-size: 14px;
-    color: #DDD;
-    margin-bottom: 5px;
-}
+            #modal .box .form label{
+                display: block;
+                font-size: 14px;
+                color: #DDD;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
 
-#modal .box .form textarea {
-    display: block;
-    width: 100%;
-    border-radius: 7px;
-    padding: 10px 15px;
-    border: 1px solid #999;
-}
+            #modal .box .form textarea ,
+            #modal .box .form select,
+            #modal .box .form input {
+                width: 100%;
+                border-radius: 7px;
+                padding: 10px 15px;
+                font-size: 14px;
+                border: 1px solid #999;
+                color: #333;
+            }
 
-#modal .box .form select {
-    width: 100%;
-    font-size: 14px;
-    color: #333;
-    padding: 10px;
-    border-radius: 7px;
-    border: 1px solid #999;
-}
+            #modal .box .form textarea {
+                padding: 10px 15px;
+            }
+
+            #modal .box .form select {
+                padding: 10px;
+            }
+
+            #modal .box .form button {
+                display: block;
+                margin-left: auto;
+            }

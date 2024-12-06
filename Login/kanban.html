@@ -10,12 +10,15 @@
 <body>
     <div class="header">
         <h1>Kanban Board</h1>
-        <button id="novaTarefa">Nova Tarefa</button>
+        <button id="novaTarefa" class="primario" onclick="openModal()">Nova Tarefa</button>
     </div>
     <div class="container">
-        <div class="coluna">
+        <div class="coluna" id="todoColumn">
             <div class="head">
                 <span>Pendente</span>
+                <div class="body">
+                    
+                </div>
             </div>
         </div>
         <div class="coluna">
@@ -39,28 +42,29 @@
         <div class="box">
             <div class="head">
                 <span>Nova Tarefa</span>
-                <button>X</button>
+                <button onclick="closeModal()">x</button>
             </div>
             <div class="form">
                 <div class="form-group">
                     <label for="">Descrição</label>
                     <textarea name="descricao" rows="3" id="descricao"></textarea>
                 </div>
-                <label for="">Prioridade</label>
-                <select>
-                    <option value="0">Baixa</option>
-                    <option value="1">Media</option>
-                    <option value="2">Alta</option>
+                <label >Prioridade</label>
+                <select id="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Media</option>
+                    <option value="alta">Alta</option>
                 </select>
 
                 <div class="form-group">
-                    <label for="">Prazo</label>
+                    <label >Prazo</label>
                     <input type="date" id="deadline">
                 </div>
 
-                <button>Cadastrar</button>
+                <button class="primario" onclick="createTask()">Cadastrar</button>
             </div>
         </div>
     </div>
+    <script src="scripts/kanban.js"></script>
 </body>
 </html>
