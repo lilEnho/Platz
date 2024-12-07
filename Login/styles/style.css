@@ -16,7 +16,7 @@ header{
 
 #title{
     flex-direction: column;
-    line-height: 10px;   
+    line-height: 10px;
 }
 
 li{
@@ -92,7 +92,7 @@ form [type="submit"]{
 
 
 form [type="submit"]:hover{
-   cursor: pointer;
+    cursor: pointer;
 }
 
 input{
@@ -102,4 +102,15 @@ input{
     border-radius: 20px;
     border: none;
     font-size: 15px;
+}
+
+/* Estilo específico para a tela de cadastro */
+form input[type="password"] {
+    border: 2px solid rgb(132, 14, 201);
+}
+
+form input[type="password"]:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 10px rgb(132, 14, 201);
 }

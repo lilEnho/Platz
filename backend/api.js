@@ -1,6 +1,10 @@
 import { fastify } from 'fastify';
 import fastifyCors from '@fastify/cors';  // Alteração aqui
 import { Database_postgres } from './database_postgres.js';
+import { authenticate, generateToken } from './auth_backend.js';
+
+
+const secretkey = 'sua_chave_secreta'
 
 const server = fastify();
 const database = new Database_postgres();
@@ -16,16 +20,17 @@ server.get('/users', async () => {
 });
 
 server.post('/users', async (request, reply) => {
-    const { username, email, password_hash } = request.body;
-    console.log(username, email, password_hash)
-    await database.create_user({ username, email, password_hash});
-    return reply.status(201).send();
+    const { username, email, senha , nome } = request.body;
+    console.log("SERVER.POST/USERS")
+    console.log(username, email, senha, nome)
+    await database.create_user({ username, email, senha, nome});
+    return reply.status(201).send({message: "Usuário cadastrado co sucesso!"});
 });
 
 server.put('/users/:id', async (request, reply) => {
     const id = request.params.id;
-    const { username, password_hash} = request.body;
-    await database.update_user(id, { username, password_hash});
+    const { username, senha, nome} = request.body;
+    await database.update_user(id, { username, senha, nome});
     return reply.status(204).send();
 });
 
@@ -41,15 +46,15 @@ server.get('/boards', async () => {
 });
 
 server.post('/boards', async (request, reply) => {
-    const { name, description, owner_id } = request.body;
-    await database.create_board({ name, description, owner_id });
+    const { nome, description, owner_id } = request.body;
+    await database.create_board({ nome, description, owner_id });
     return reply.status(201).send();
 });
 
 server.put('/boards/:id', async (request, reply) => {
     const id = request.params.id;
-    const { name, description } = request.body;
-    await database.update_board(id, { name, description });
+    const { nome, description } = request.body;
+    await database.update_board(id, { nome, description });
     return reply.status(204).send();
 });
 
@@ -107,26 +112,26 @@ server.delete('/board_users/:id', async (request, reply) => {
     return reply.status(204).send();
 })
 
-server.post('/login', async (request, reply) => {
-    const { email, password } = request.body;
-    console.log('Requisição post/login recebida')
 
-    // Busca o usuário no banco de dados.
-    const users = await database.list_users();
-    const user = users.find(u => u.email === email && u.password_hash === password);
-
-    if (user) {
-        // Resposta de sucesso.
-        reply.code(200).send({ success: true, message: 'Login successful!' });
-    } else {
-        // Resposta de erro.
-        reply.code(401).send({ success: false, message: 'Invalid credentials.' });
-    }
+server.get('/kanbans', { preHandler: authenticate }, async (request, reply) => {
+    const userId = request.user.id; // ID do usuário autenticado
+    const kanbans = await database.getUserKanbans(userId);
+    return reply.send(kanbans);
 });
 
+// Exemplo de login que gera o token
+server.post('/login', async (request, reply) => {
+    const { email, password } = request.body;
+    const users = await database.list_users();
+    const user = users.find(u => u.email === email && u.senha === password);
 
-
-
+    if (user) {
+        const token = generateToken({ id: user.id, email: user.email });
+        reply.send({ token });
+    } else {
+        reply.code(401).send({ message: 'Credenciais inválidas.' });
+    }
+});
 
 // Start server
 server.listen({ port: 3333 }, (err, address) => {

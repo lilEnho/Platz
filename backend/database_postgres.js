@@ -9,21 +9,21 @@ export class Database_postgres {
 
     async create_user(user) {
         console.log(user)
-        const { username, email, password_hash} = user;
+        const { username, email, senha, nome } = user;
         console.log(user)
         await sql`
-            INSERT INTO users (username, email, password_hash)
-            VALUES (${username}, ${email}, ${password_hash})
+            INSERT INTO users (username, email, senha, nome)
+            VALUES (${username}, ${email}, ${senha}, ${nome})
         `;
         return user;
     }
 
     async update_user(id, user) {
-        const { username, password_hash} = user;
+        const { username, senha, nome} = user;
         console.log(user)
         await sql`
             UPDATE users
-            SET username = ${username}, password_hash = ${password_hash}
+            SET username = ${username}, senha = ${senha}, nome = ${nome}
             WHERE id = ${id}
         `;
     }
@@ -39,19 +39,19 @@ export class Database_postgres {
     }
 
     async create_board(board) {
-        const { name, description, owner_id} = board;
+        const { nome, description, owner_id} = board;
         await sql`
-            INSERT INTO boards (name, description, owner_id)
-            VALUES (${name}, ${description}, ${owner_id})
+            INSERT INTO boards (nome, description, owner_id)
+            VALUES (${nome}, ${description}, ${owner_id})
         `;
         return board;
     }
 
     async update_board(id, board) {
-        const {name, description} = board;
+        const {nome, description} = board;
         await sql`
             UPDATE boards
-            SET name = ${name}, description = ${description}
+            SET nome = ${nome}, description = ${description}
             WHERE id = ${id}
         `;
     }

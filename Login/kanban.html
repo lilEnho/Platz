@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/kanban.css">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <title>Kanban Board</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <h1>Kanban Board</h1>
+    <button id="novaTarefa" class="primario" onclick="openModal()">Nova Tarefa</button>
+</div>
+<div class="container">
+    <div class="coluna" id="todoColumn">
+        <div class="head">
+            <span>Pendente</span>
+        </div>
+        <div class="body">
+
+        </div>
+    </div>
+    <div class="coluna">
+        <div class="head">
+            <span>Em Andamento</span>
+        </div>
+    </div>
+    <div class="coluna">
+        <div class="head">
+            <span>Finalizado</span>
+        </div>
+    </div>
+    <div class="coluna">
+        <div class="head">
+            <span>Arquivado</span>
+        </div>
+    </div>
+</div>
+
+<div id="modal">
+    <div class="box">
+        <div class="head">
+            <span>Nova Tarefa</span>
+            <button onclick="closeModal()">x</button>
+        </div>
+        <div class="form">
+            <input type="hidden" id="idInput">
+            <div class="form-group">
+                <label for="">Descrição</label>
+                <textarea name="descricao" rows="3" id="descricao"></textarea>
+            </div>
+            <label >Prioridade</label>
+            <select id="prioridade">
+                <option value="baixa">Baixa</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+            </select>
+
+            <div class="form-group">
+                <label >Prazo</label>
+                <input type="date" id="deadline">
+            </div>
+
+            <button class="primario" onclick="createTask()">Cadastrar</button>
+        </div>
+    </div>
+</div>
+<script src="scripts/kanban.js"></script>
+</body>
+</html>
