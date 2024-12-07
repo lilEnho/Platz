@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles/kanban.css">
     <link rel="stylesheet" href="styles/fonts.css">
     <title>Kanban Board</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 </head>
 <body>
     <div class="header">
@@ -16,9 +17,9 @@
         <div class="coluna" id="todoColumn">
             <div class="head">
                 <span>Pendente</span>
-                <div class="body">
-                    
-                </div>
+            </div>
+            <div class="body">
+                
             </div>
         </div>
         <div class="coluna">
@@ -45,6 +46,7 @@
                 <button onclick="closeModal()">x</button>
             </div>
             <div class="form">
+                <input type="hidden" id="idInput">
                 <div class="form-group">
                     <label for="">Descrição</label>
                     <textarea name="descricao" rows="3" id="descricao"></textarea>
