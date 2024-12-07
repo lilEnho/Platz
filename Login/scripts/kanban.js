@@ -1,32 +1,49 @@
+
 const $modal = document.getElementById('modal');
+
 const $descriptionInput = document.getElementById('descricao');
 const $priorityInput = document.getElementById('prioridade');
+const $columnInput = document.getElementById('coluna'); 
 const $deadLineInput = document.getElementById('deadline');
-const $idInput = document.getElementById('idInput');    
+const $idInput = document.getElementById('idInput');
 
-const $todoColumnBody = document.querySelector('#todoColumn .body');
+const $creationMode = document.getElementById('creationMode');
+const $editionMode = document.getElementById('editionMode');
+const $crationModeBtn = document.getElementById('creationModeBtn');
+const $editionModeBtn = document.getElementById('editionModeBtn');
 
-var todoList = []
+
+var taskList = []
 
 function openModal(id){
     $modal.style.display = "flex";
-
+    
     if(id){
-        const index = todoList.findIndex(function(task){
-            return task.id === id;
+        
+        $creationMode.style.display = "none";
+        $crationModeBtn.style.display = "none";
+
+        $editionMode.style.display = "block";
+        $editionModeBtn.style.display = "block";
+        
+        const index = taskList.findIndex(function(task){
+            return task.id == id;
         });
 
-        if (index !== -1) {
-            const task = todoList[index];
+        const task = taskList[index];
 
             $idInput.value = task.id;
             $descriptionInput.value = task.description;
             $priorityInput.value = task.priority;
             $deadLineInput.value = task.deadline;
-        } else {
-            console.error('Task not found');
-        }
-    }   
+        
+    } else {
+        $creationMode.style.display = "block";
+        $crationModeBtn.style.display = "block";
+
+        $editionMode.style.display = "none";
+        $editionModeBtn.style.display = "none";
+    }
 }
 
 function closeModal(){
@@ -36,14 +53,13 @@ function closeModal(){
     $deadLineInput.value = "";  
 }
 
-function generateUniqueId() {
-    return Math.floor(Math.random() * 10000);
-}
-
 function generateCards() {
-    const todoListHtml = todoList.map(function(task) {
+    taskList.forEach(function(task) {
         const formattedDeadline = moment(task.deadline).format('DD/MM/YYYY');
-         return `
+
+        const columnBody = document.querySelector(`[data-coluna="${task.column}"] .body`);    
+
+         const card =`
             <div class="card" ondblclick="openModal(${task.id})">
                 <div class="info">
                     <b>Descrição</b>
@@ -61,19 +77,39 @@ function generateCards() {
                 </div>
             </div>
         `;
-    });
 
-    $todoColumnBody.innerHTML = todoListHtml.join('');
+        columnBody.innerHTML += card;
+    });
 }
 
 function createTask() {
     const newTask = {
-        id: generateUniqueId(),
+        id: Math.floor(Math.random() * 10000),
+        description: $descriptionInput.value,
+        priority: $priorityInput.value,
+        deadline: $deadLineInput.value,
+        column: $columnInput.value,
+    };
+    taskList.push(newTask);
+    generateCards();
+    closeModal();
+}
+
+
+function editTask() {
+    const task = {
+        id: $idInput.value,
         description: $descriptionInput.value,
         priority: $priorityInput.value,
         deadline: $deadLineInput.value,
     };
-    todoList.push(newTask);
-    generateCards();
+    
+    const index = taskList.findIndex(function(task){
+        return task.id == $idInput.value;
+    });
+
+    taskList[index] = task;
+
     closeModal();
+    generateCards();
 }
