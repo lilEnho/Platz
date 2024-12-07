@@ -16,15 +16,16 @@ server.get('/users', async () => {
 });
 
 server.post('/users', async (request, reply) => {
-    const { name, email, password_hash, created_at } = request.body;
-    await database.create_user({ name, email, password_hash, created_at });
+    const { username, email, password_hash } = request.body;
+    console.log(username, email, password_hash)
+    await database.create_user({ username, email, password_hash});
     return reply.status(201).send();
 });
 
 server.put('/users/:id', async (request, reply) => {
     const id = request.params.id;
-    const { name, email, password_hash, created_at } = request.body;
-    await database.update_user(id, { name, email, password_hash, created_at });
+    const { username, password_hash} = request.body;
+    await database.update_user(id, { username, password_hash});
     return reply.status(204).send();
 });
 
@@ -34,27 +35,27 @@ server.delete('/users/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
-// TODO LISTS
-server.get('/todo-lists', async () => {
-    return await database.list_todo_lists();
+// boards
+server.get('/boards', async () => {
+    return await database.list_boards();
 });
 
-server.post('/todo-lists', async (request, reply) => {
-    const { user_id, name } = request.body;
-    await database.create_todo_list({ user_id, name });
+server.post('/boards', async (request, reply) => {
+    const { name, description, owner_id } = request.body;
+    await database.create_board({ name, description, owner_id });
     return reply.status(201).send();
 });
 
-server.put('/todo-lists/:id', async (request, reply) => {
+server.put('/boards/:id', async (request, reply) => {
     const id = request.params.id;
-    const { name } = request.body;
-    await database.update_todo_list(id, { name });
+    const { name, description } = request.body;
+    await database.update_board(id, { name, description });
     return reply.status(204).send();
 });
 
-server.delete('/todo-lists/:id', async (request, reply) => {
+server.delete('/boards/:id', async (request, reply) => {
     const id = request.params.id;
-    await database.delete_todo_list(id);
+    await database.delete_board(id);
     return reply.status(204).send();
 });
 
@@ -64,16 +65,16 @@ server.get('/tasks', async () => {
 });
 
 server.post('/tasks', async (request, reply) => {
-    const { list_id, description, is_done } = request.body;
+    const { title, description, status, board_id, priority, deadline } = request.body;
     console.log("post task")
-    await database.create_task({ list_id, description, is_done });
+    await database.create_task({ title, description, status, board_id, priority, deadline });
     return reply.status(201).send();
 });
 
 server.put('/tasks/:id', async (request, reply) => {
     const id = request.params.id;
-    const { description, is_done } = request.body;
-    await database.update_task(id, { description, is_done });
+    const { title, description, status, priority, deadline } = request.body;
+    await database.update_task(id, { title, description, status, priority, deadline });
     return reply.status(204).send();
 });
 
@@ -82,6 +83,29 @@ server.delete('/tasks/:id', async (request, reply) => {
     await database.delete_task(id);
     return reply.status(204).send();
 });
+
+server.get('/board_users', async() => {
+    return await database.list_board_users();
+})
+
+server.post('/board_users', async (request, reply) => {
+    const {user_id, board_id, role} = request.body;
+    await database.create_board_user({user_id, board_id, role});
+    return reply.status(201).send();
+})
+
+server.put('/board_users/:id', async (request, reply) => {
+    const id = request.params.id;
+    const {role} = request.body;
+    await database.update_board_user(id, {role})
+    return reply.status(204).send();
+})
+
+server.delete('/board_users/:id', async (request, reply) => {
+    const id = request.params.id;
+    await database.delete_board_user(id);
+    return reply.status(204).send();
+})
 
 server.post('/login', async (request, reply) => {
     const { email, password } = request.body;
