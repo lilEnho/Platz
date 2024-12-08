@@ -63,6 +63,9 @@ function columnReset(){
 
 function generateCards() {
     columnReset();
+    // Sort tasks by deadline in descending order
+    taskList.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+    
     taskList.forEach(function(task) {
         const formattedDeadline = moment(task.deadline).format('DD/MM/YYYY');
 
