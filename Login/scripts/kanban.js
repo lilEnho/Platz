@@ -10,6 +10,7 @@ const $creationMode = document.getElementById('creationMode');
 const $editionMode = document.getElementById('editionMode');
 const $crationModeBtn = document.getElementById('creationModeBtn');
 const $editionModeBtn = document.getElementById('editionModeBtn');
+const $deleteModeBtn = document.getElementById('deleteModeBtn');
 
 var taskList = []
 
@@ -29,6 +30,7 @@ function editModal(id){
     $crationModeBtn.style.display = "none";
     $editionMode.style.display = "block";
     $editionModeBtn.style.display = "block";
+    $deleteModeBtn.style.display = "block";
     
     const index = taskList.findIndex(function(task){
         return task.id == id;
@@ -49,6 +51,7 @@ function closeModal(){
     $priorityInput.value = "";
     $deadLineInput.value = "";
     $columnInput.value = "";
+    $deleteModeBtn.style.display = "none";
 }
 
 function columnReset(){
@@ -149,6 +152,15 @@ function moveTaskColumn(id, column) {
 
     generateCards();
 }
+
+
+function deleteTask() {
+    const taskId = $idInput.value;
+    taskList = taskList.filter(task => task.id != taskId);
+    generateCards();
+    closeModal();
+}
+
 
 function dragstartHandler(ev) {
     ev.dataTransfer.setData("data", ev.target.getAttribute('id'));

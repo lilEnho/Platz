@@ -29,6 +29,10 @@ body {
     cursor: pointer;
 }
 
+.primario:hover {
+    background-color: #4cae4c;
+}
+
 .header {
     width: 100%;
     display: flex;
@@ -216,4 +220,21 @@ body {
 #modal .box .form button {
     display: block;
     margin-left: auto;
+}
+
+#modal .box .form-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#modal .box .form button.delete-btn {
+    display: block;
+    background-color: #d9534f;
+    color: white;
+    margin-left: 0;
+}
+
+#modal .box .form button.delete-btn:hover {
+    background-color: #e07875;
 }
