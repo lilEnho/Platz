@@ -63,17 +63,23 @@ function columnReset(){
 
 function generateCards() {
     columnReset();
-    // Sort tasks by deadline in descending order
-    taskList.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+    // Sort tasks by deadline, with tasks without a deadline first
+    taskList.sort((a, b) => {
+        if (!a.deadline) return -1;
+        if (!b.deadline) return 1;
+        return new Date(a.deadline) - new Date(b.deadline);
+    });
     
     taskList.forEach(function(task) {
-        const formattedDeadline = moment(task.deadline).format('DD/MM/YYYY');
+        const formattedDeadline = task.deadline ? moment(task.deadline).format('DD/MM/YYYY') : 'Sem Prazo';
+        const priority = task.priority ? task.priority : 'Não Definido';
+        const priorityClass = task.priority ? task.priority : 'nao-definido';
 
         const columnBody = document.querySelector(`[data-coluna="${task.column}"] .task-list`);     
 
         if (columnBody) {
             const card =`
-                <div class="card ${task.priority}" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
+                <div class="card ${priorityClass}" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
                     <div class="info">
                         <b>Descrição</b>
                         <span>${task.description}</span>
@@ -81,7 +87,7 @@ function generateCards() {
 
                     <div class="info">
                         <b>Prioridade</b>
-                        <span>${task.priority}</span>
+                        <span>${priority}</span>
                     </div>
 
                     <div class="info">

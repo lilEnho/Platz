@@ -152,6 +152,10 @@ body {
     background-color: #ffb0b6; /* Vermelho claro */
 }
 
+.nao-definido {
+    background-color: #DDD; /* Cor para prioridade não definida */
+}
+
 .container .coluna .body .card .info {
     font-size: 0.875rem;
     color: #333;
