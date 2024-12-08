@@ -36,6 +36,7 @@ function openModal(id){
             $descriptionInput.value = task.description;
             $priorityInput.value = task.priority;
             $deadLineInput.value = task.deadline;
+            $columnInput.value = task.column;
         
     } else {
         $creationMode.style.display = "block";
@@ -50,10 +51,19 @@ function closeModal(){
     $modal.style.display = "none";
     $descriptionInput.value = "";
     $priorityInput.value = "";
-    $deadLineInput.value = "";  
+    $deadLineInput.value = "";
+    $columnInput.value = "";
+}
+
+function columnReset(){
+    const columns = document.querySelectorAll('.body');
+    columns.forEach(function(column){
+        column.innerHTML = "";
+    }); 
 }
 
 function generateCards() {
+    columnReset();
     taskList.forEach(function(task) {
         const formattedDeadline = moment(task.deadline).format('DD/MM/YYYY');
 
@@ -84,7 +94,7 @@ function generateCards() {
 
 function createTask() {
     const newTask = {
-        id: Math.floor(Math.random() * 10000),
+        id: Math.floor(Math.random() * 999999999),
         description: $descriptionInput.value,
         priority: $priorityInput.value,
         deadline: $deadLineInput.value,
@@ -102,6 +112,7 @@ function editTask() {
         description: $descriptionInput.value,
         priority: $priorityInput.value,
         deadline: $deadLineInput.value,
+        column: $columnInput.value,
     };
     
     const index = taskList.findIndex(function(task){
@@ -110,6 +121,6 @@ function editTask() {
 
     taskList[index] = task;
 
-    closeModal();
     generateCards();
+    closeModal();
 }
