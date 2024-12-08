@@ -15,36 +15,68 @@
         <button id="novaTarefa" class="primario" onclick="openModal()">Nova Tarefa</button>
     </div>
     <div class="container">
-        <div class="coluna" data-coluna="1">
+        <div class="coluna" data-coluna="1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
             <div class="head">
                 <span>Pendente</span>
             </div>
             <div class="body">
-                <!-- preenchido com cartoes aqui -->     
+                <div class="task-list">
+                    <!-- preenchido com cartoes aqui -->
+                </div>
+                <button class="task-add-btn" onclick="openModal(1)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                    Adicionar Tarefa
+                </button>
             </div>
         </div>
-        <div class="coluna" data-coluna="2">
+        <div class="coluna" data-coluna="2" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
             <div class="head">
                 <span>Em Andamento</span>
             </div>
             <div class="body">
-                 <!-- preenchido com cartoes aqui -->
+                <div class="task-list">
+                    <!-- preenchido com cartoes aqui -->
+                </div>
+                <button class="task-add-btn" onclick="openModal(2)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                    Adicionar Tarefa
+                </button>
             </div>
         </div>
-        <div class="coluna" data-coluna="3">
+        <div class="coluna" data-coluna="3" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
             <div class="head">
                 <span>Finalizado</span>
             </div>
             <div class="body">
-                 <!-- preenchido com cartoes aqui -->
+                <div class="task-list">
+                    <!-- preenchido com cartoes aqui -->
+                </div>
+                <button class="task-add-btn" onclick="openModal(3)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                    Adicionar Tarefa
+                </button>
             </div>
         </div>
-        <div class="coluna" data-coluna="4">
+        <div class="coluna" data-coluna="4" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
             <div class="head">
                 <span>Arquivado</span>
             </div>
             <div class="body">
-                 <!-- preenchido com cartoes aqui -->
+                <div class="task-list">
+                    <!-- preenchido com cartoes aqui -->
+                </div>
+                <button class="task-add-btn" onclick="openModal(4)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                    Adicionar Tarefa
+                </button>
             </div>
         </div>
     </div>
