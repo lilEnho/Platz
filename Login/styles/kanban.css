@@ -42,24 +42,27 @@ body {
     display: flex;
     gap: 30px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 50px 0;
 }
 
 .container .coluna {
-    width: 250px;
-    height: 600px;
+    width: 270px; /* Aumentar a largura das colunas */
+    height: 650px; /* Aumentar a altura das colunas */
     background-color: var(--column-color);
     border-radius: 6px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    padding: 20px; /* Adicionar padding para aumentar a área de drop */
+    margin: 20px; /* Adicionar margin para aumentar a área de drop */
 }
 
 .container .coluna .head {
     background-color: var(--primary-color);
     padding: 15px;
     text-align: center;
+    border-radius: 3px;
 }
 
 .container .coluna .body {

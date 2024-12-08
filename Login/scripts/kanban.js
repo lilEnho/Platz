@@ -67,7 +67,7 @@ function generateCards() {
 
         if (columnBody) {
             const card =`
-                <div class="card" ondblclick="editModal(${task.id})">
+                <div class="card" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
                     <div class="info">
                         <b>Descrição</b>
                         <span>${task.description}</span>
@@ -89,6 +89,13 @@ function generateCards() {
         } else {
             console.error(`Column body not found for column: ${task.column}`);
         }
+    });
+
+    // Adicionar eventos de drop às colunas
+    const columns = document.querySelectorAll('.task-list');
+    columns.forEach(function(column) {
+        column.addEventListener('dragover', dragoverHandler);
+        column.addEventListener('drop', dropHandler);
     });
 }
 
@@ -122,4 +129,39 @@ function editTask() {
 
     generateCards();
     closeModal();
+}
+
+function moveTaskColumn(id, column) {
+    if (!id || !column) {
+        console.error('Invalid parameters');
+        return;
+    }
+
+    taskList = taskList.map(function(task) {
+        if (task.id == id) {
+            return {
+                ...task,
+                column: column,
+            };
+        }
+        return task;
+    });
+
+    generateCards();
+}
+
+function dragstartHandler(ev) {
+    ev.dataTransfer.setData("data", ev.target.getAttribute('id'));
+    ev.dataTransfer.effectAllowed = "move";
+}
+
+function dragoverHandler(ev) {
+    ev.preventDefault();
+}
+
+function dropHandler(ev) {
+    ev.preventDefault();
+    const task_id = ev.dataTransfer.getData("data");
+    const column_id = ev.target.parentElement.getAttribute('data-coluna');
+    moveTaskColumn(task_id, column_id);
 }
