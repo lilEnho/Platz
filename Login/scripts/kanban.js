@@ -1,19 +1,24 @@
+// Modal
 const $modal = document.getElementById('modal');
 
+// Elementos Input
 const $descriptionInput = document.getElementById('descricao');
 const $priorityInput = document.getElementById('prioridade');
 const $columnInput = document.getElementById('coluna'); 
 const $deadLineInput = document.getElementById('deadline');
 const $idInput = document.getElementById('idInput');
 
+// Elementos de Modo de Criação e Edição    
 const $creationMode = document.getElementById('creationMode');
 const $editionMode = document.getElementById('editionMode');
 const $crationModeBtn = document.getElementById('creationModeBtn');
 const $editionModeBtn = document.getElementById('editionModeBtn');
 const $deleteModeBtn = document.getElementById('deleteModeBtn');
 
+// Lista de Tarefas a inserir no Kanban
 var taskList = []
 
+// Eventos do Modal
 function openModal(column){
     $modal.style.display = "flex";
     $creationMode.style.display = "block";
@@ -23,7 +28,7 @@ function openModal(column){
 
     document.getElementById('coluna').value = column;
 }
-
+// Função para abrir o modal em modo de edição 
 function editModal(id){
     $modal.style.display = "flex";
     $creationMode.style.display = "none";
@@ -45,6 +50,7 @@ function editModal(id){
     $columnInput.value = task.column;
 }
 
+//função para fechar o modal
 function closeModal(){
     $modal.style.display = "none";
     $descriptionInput.value = "";
@@ -54,6 +60,7 @@ function closeModal(){
     $deleteModeBtn.style.display = "none";
 }
 
+// Função para resetar as colunas
 function columnReset(){
     const columns = document.querySelectorAll('.task-list');
     columns.forEach(function(column){
@@ -61,9 +68,10 @@ function columnReset(){
     }); 
 }
 
+// Função para gerar as cartas no Kanban
 function generateCards() {
     columnReset();
-    // Sort tasks by deadline, with tasks without a deadline first
+    // Ordenar tarefas por deadline
     taskList.sort((a, b) => {
         if (!a.deadline) return -1;
         if (!b.deadline) return 1;
@@ -71,12 +79,17 @@ function generateCards() {
     });
     
     taskList.forEach(function(task) {
+        // Formatar data 
         const formattedDeadline = task.deadline ? moment(task.deadline).format('DD/MM/YYYY') : 'Sem Prazo';
+
+        // Definir prioridade
         const priority = task.priority ? task.priority : 'Não Definido';
         const priorityClass = task.priority ? task.priority : 'nao-definido';
 
+        // Adicionar task às colunas
         const columnBody = document.querySelector(`[data-coluna="${task.column}"] .task-list`);     
 
+        // Estrutuea da task
         if (columnBody) {
             const card =`
                 <div class="card ${priorityClass}" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
@@ -103,7 +116,7 @@ function generateCards() {
         }
     });
 
-    // Adicionar eventos de drop às colunas
+    // Adicionar eventos de drop nas colunas
     const columns = document.querySelectorAll('.task-list');
     columns.forEach(function(column) {
         column.addEventListener('dragover', dragoverHandler);
@@ -111,6 +124,7 @@ function generateCards() {
     });
 }
 
+// Função para criar uma nova task
 function createTask() {
     const newTask = {
         id: Math.floor(Math.random() * 999999999),
@@ -124,6 +138,7 @@ function createTask() {
     closeModal();
 }
 
+// Função para editar uma task
 function editTask() {
     const task = {
         id: $idInput.value,
@@ -142,7 +157,7 @@ function editTask() {
     generateCards();
     closeModal();
 }
-
+// Função para mover uma task de coluna
 function moveTaskColumn(id, column) {
     if (!id || !column) {
         console.error('Invalid parameters');
@@ -162,7 +177,7 @@ function moveTaskColumn(id, column) {
     generateCards();
 }
 
-
+// Função para deletar uma task
 function deleteTask() {
     const taskId = $idInput.value;
     taskList = taskList.filter(task => task.id != taskId);
@@ -170,7 +185,7 @@ function deleteTask() {
     closeModal();
 }
 
-
+// Eventos de Drag and Drop
 function dragstartHandler(ev) {
     ev.dataTransfer.setData("data", ev.target.getAttribute('id'));
     ev.dataTransfer.effectAllowed = "move";
