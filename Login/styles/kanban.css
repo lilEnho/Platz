@@ -29,7 +29,7 @@ body {
     cursor: pointer;
 }
 
-.header{
+.header {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -38,7 +38,7 @@ body {
     padding: 30px;
 }
 
-.container{
+.container {
     display: flex;
     gap: 30px;
     justify-content: center;
@@ -54,35 +54,59 @@ body {
     overflow: hidden;
 }
 
-    .container .coluna .head{
-        background-color: var(--primary-color);
-        padding: 15px;
-        text-align: center;
-    }
-
-    .container .coluna .body{
-        display: flex;
-        flex-direction: column;
-        background-color: var(--column-color);
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .container .coluna .body .card{
-        background-color: #EEE;
-        border-radius: 7px;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 10 px; 
+.container .coluna .head {
+    background-color: var(--primary-color);
+    padding: 15px;
+    text-align: center;
 }
 
-    .container .coluna .body .card .info{
-        font-size: 14px;
-        color: #333;
-        display: flex;
-        flex-direction: column;
-    }
+.container .coluna .body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--column-color);
+    gap: 20px;
+    padding: 20px;
+}
+
+.container .coluna .body .task-add-btn {
+    background-color: #5cb85c; /* Cor mais clara */
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 8px; /* Diminuir o padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px; /* Diminuir o tamanho da fonte */
+    transition: background-color 0.3s ease;
+}
+
+.container .coluna .body .task-add-btn:hover {
+    background-color: #4cae4c; /* Cor mais clara ao passar o mouse */
+}
+
+.container .coluna .body .task-add-btn .material-symbols-outlined {
+    margin-right: 5px;
+    font-size: 18px; /* Diminuir o tamanho do ícone */
+}
+
+.container .coluna .body .card {
+    background-color: #EEE;
+    border-radius: 7px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.container .coluna .body .card .info {
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
 
 #modal {
     position: fixed;
@@ -96,72 +120,71 @@ body {
     align-items: center;
 }
 
-    #modal .box{
-        background-color: var(--primary-color);
-        width: 400px;
-        border-radius: 7px;
-        overflow: hidden;
-    }
+#modal .box {
+    background-color: var(--primary-color);
+    width: 400px;
+    border-radius: 7px;
+    overflow: hidden;
+}
 
-        #modal .box .head{
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #DDD;
-        }
+#modal .box .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #DDD;
+}
 
-            #modal .box .head span{
-                font-size: 18px;
-                font-weight: 700;
-                color: #DDD;
-            }
+#modal .box .head span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #DDD;
+}
 
-            #modal .box .head button {
-                border: none;
-                background: none;
-                font-size: 20px;
-                font-weight: 700;
-                cursor: pointer;
-                color: #DDD;
-            }
+#modal .box .head button {
+    border: none;
+    background: none;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #DDD;
+}
 
-        #modal .box .form{
-            padding: 20px;
-        }
+#modal .box .form {
+    padding: 20px;
+}
 
-            #modal .box .form .form-group {
-                margin-bottom: 15px;
+#modal .box .form .form-group {
+    margin-bottom: 15px;
+}
 
-            }
+#modal .box .form label {
+    display: block;
+    font-size: 14px;
+    color: #DDD;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
 
-            #modal .box .form label{
-                display: block;
-                font-size: 14px;
-                color: #DDD;
-                margin-top: 10px;
-                margin-bottom: 5px;
-            }
+#modal .box .form textarea,
+#modal .box .form select,
+#modal .box .form input {
+    width: 100%;
+    border-radius: 7px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 1px solid #999;
+    color: #333;
+}
 
-            #modal .box .form textarea ,
-            #modal .box .form select,
-            #modal .box .form input {
-                width: 100%;
-                border-radius: 7px;
-                padding: 10px 15px;
-                font-size: 14px;
-                border: 1px solid #999;
-                color: #333;
-            }
+#modal .box .form textarea {
+    padding: 10px 15px;
+}
 
-            #modal .box .form textarea {
-                padding: 10px 15px;
-            }
+#modal .box .form select {
+    padding: 10px;
+}
 
-            #modal .box .form select {
-                padding: 10px;
-            }
-
-            #modal .box .form button {
-                display: block;
-                margin-left: auto;
-            }
+#modal .box .form button {
+    display: block;
+    margin-left: auto;
+}
