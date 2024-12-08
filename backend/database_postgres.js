@@ -1,4 +1,4 @@
-import { sql } from './db.js';
+import {sql} from './db.js';
 
 export class Database_postgres {
     // USERS
@@ -8,20 +8,20 @@ export class Database_postgres {
     }
 
     async create_user(user) {
-        const { name, email, password_hash, created_at = new Date(), updated_at = new Date() } = user;
+
+        const { username, email, senha, nome } = user;
         await sql`
-            INSERT INTO users (name, email, password_hash, created_at)
-            VALUES (${name}, ${email}, ${password_hash}, ${created_at})
+            INSERT INTO users (username, email, senha, nome)
+            VALUES (${username}, ${email}, ${senha}, ${nome})
         `;
         return user;
     }
 
     async update_user(id, user) {
-        const { name, email, password_hash} = user;
-        console.log(user)
+        const { username, senha, nome} = user;
         await sql`
             UPDATE users
-            SET name = ${name}, email = ${email}, password_hash = ${password_hash}
+            SET username = ${username}, senha = ${senha}, nome = ${nome}
             WHERE id = ${id}
         `;
     }
@@ -30,32 +30,32 @@ export class Database_postgres {
         await sql`DELETE FROM users WHERE id = ${id}`;
     }
 
-    // TODO LISTS
-    async list_todo_lists() {
+    // boards
+    async list_boards() {
         return sql`SELECT *
-                   FROM todo_lists`;
+                   FROM boards`;
     }
 
-    async create_todo_list(todo_list) {
-        const { user_id, name, created_at = new Date(), updated_at = new Date() } = todo_list;
+    async create_board(board) {
+        const { nome, description, owner_id} = board;
         await sql`
-            INSERT INTO todo_lists (user_id, name, created_at, updated_at)
-            VALUES (${user_id}, ${name}, ${created_at}, ${updated_at})
+            INSERT INTO boards (nome, description, owner_id)
+            VALUES (${nome}, ${description}, ${owner_id})
         `;
-        return todo_list;
+        return board;
     }
 
-    async update_todo_list(id, todo_list) {
-        const { name, updated_at = new Date() } = todo_list;
+    async update_board(id, board) {
+        const {nome, description} = board;
         await sql`
-            UPDATE todo_lists
-            SET name = ${name}, updated_at = ${updated_at}
+            UPDATE boards
+            SET nome = ${nome}, description = ${description}
             WHERE id = ${id}
         `;
     }
 
-    async delete_todo_list(id) {
-        await sql`DELETE FROM todo_lists WHERE id = ${id}`;
+    async delete_board(id) {
+        await sql`DELETE FROM boards WHERE id = ${id}`;
     }
 
     // TASKS
@@ -64,28 +64,62 @@ export class Database_postgres {
                    FROM tasks`;
     }
 
-    async create_task(task) {
-        const { list_id, description, is_done = false, created_at = new Date() } = task;
+    async getTasksForUser(user_id) {
+        return await sql`
+            SELECT tasks.*
+            FROM tasks
+                     JOIN boards ON tasks.board_id = boards.id
+            WHERE boards.owner_id = ${user_id};
+        `;
+    }
 
-        console.log(task);
+
+
+
+    async create_task(task) {
+        const { title, description, status, board_id, priority, deadline } = task;
 
         await sql`
-            INSERT INTO tasks (list_id, description, is_done, created_at)
-            VALUES (${list_id}, ${description}, ${is_done}, ${created_at})
+            INSERT INTO tasks (title, description, status, board_id, priority, deadline)
+            VALUES (${title}, ${description}, ${status}, ${board_id}, ${priority}, ${deadline} )
         `;
         return task;
     }
 
     async update_task(id, task) {
-        const { description, is_done, updated_at = new Date() } = task;
+        const { title, description, status, priority, deadline } = task;
         await sql`
             UPDATE tasks
-            SET description = ${description}, is_done = ${is_done}, updated_at = ${updated_at}
+            SET title = ${title}, description = ${description}, status = ${status}, priority = ${priority}, deadline = ${deadline}
             WHERE id = ${id}
         `;
     }
 
     async delete_task(id) {
         await sql`DELETE FROM tasks WHERE id = ${id}`;
+    }
+
+    // BOARD USERS
+    async list_board_users() {
+        return sql`SELECT * FROM board_users`;
+    }
+
+    async create_board_user(board_user){
+        const { user_id, board_id, role } = board_user;
+        await sql `INSERT INTO board_users (user_id, board_id, role)
+                    VALUES (${user_id}, ${board_id}, ${role})`
+    }
+
+    async update_board_user(id, board_user) {
+        const {role} = board_user;
+        await sql`
+            UPDATE board_users
+            SET role = ${role}
+            WHERE id = ${id}
+        `;
+    }
+
+    async delete_board_user(id){
+        await sql `DELETE FROM board_users WHERE id = ${id}`;
     }
 }

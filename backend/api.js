@@ -1,6 +1,10 @@
 import { fastify } from 'fastify';
 import fastifyCors from '@fastify/cors';  // Alteração aqui
 import { Database_postgres } from './database_postgres.js';
+import { authenticate, generateToken } from './auth_backend.js';
+
+
+const secretkey = 'sua_chave_secreta'
 
 const server = fastify();
 const database = new Database_postgres();
@@ -16,15 +20,15 @@ server.get('/users', async () => {
 });
 
 server.post('/users', async (request, reply) => {
-    const { name, email, password_hash, created_at } = request.body;
-    await database.create_user({ name, email, password_hash, created_at });
-    return reply.status(201).send();
+    const { username, email, senha , nome } = request.body;
+    await database.create_user({ username, email, senha, nome});
+    return reply.status(201).send({message: "Usuário cadastrado co sucesso!"});
 });
 
 server.put('/users/:id', async (request, reply) => {
     const id = request.params.id;
-    const { name, email, password_hash, created_at } = request.body;
-    await database.update_user(id, { name, email, password_hash, created_at });
+    const { username, senha, nome} = request.body;
+    await database.update_user(id, { username, senha, nome});
     return reply.status(204).send();
 });
 
@@ -34,46 +38,48 @@ server.delete('/users/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
-// TODO LISTS
-server.get('/todo-lists', async () => {
-    return await database.list_todo_lists();
+// boards
+server.get('/boards', async () => {
+    return await database.list_boards();
 });
 
-server.post('/todo-lists', async (request, reply) => {
-    const { user_id, name } = request.body;
-    await database.create_todo_list({ user_id, name });
+server.post('/boards', async (request, reply) => {
+    const { nome, description, owner_id } = request.body;
+    await database.create_board({ nome, description, owner_id });
     return reply.status(201).send();
 });
 
-server.put('/todo-lists/:id', async (request, reply) => {
+server.put('/boards/:id', async (request, reply) => {
     const id = request.params.id;
-    const { name } = request.body;
-    await database.update_todo_list(id, { name });
+    const { nome, description } = request.body;
+    await database.update_board(id, { nome, description });
     return reply.status(204).send();
 });
 
-server.delete('/todo-lists/:id', async (request, reply) => {
+server.delete('/boards/:id', async (request, reply) => {
     const id = request.params.id;
-    await database.delete_todo_list(id);
+    await database.delete_board(id);
     return reply.status(204).send();
 });
 
 // TASKS
-server.get('/tasks', async () => {
-    return await database.list_tasks();
+server.get('/tasks', { preHandler: authenticate }, async (request, reply) => {
+    const userId = request.user.id; // O ID do usuário autenticado
+    const tasks = await database.getTasksForUser(userId); // Recupera as tarefas do usuário
+    reply.send(tasks); // Envia as tarefas de volta para o cliente
 });
 
+
 server.post('/tasks', async (request, reply) => {
-    const { list_id, description, is_done } = request.body;
-    console.log("post task")
-    await database.create_task({ list_id, description, is_done });
+    const { title, description, status, board_id, priority, deadline } = request.body;
+    await database.create_task({ title, description, status, board_id, priority, deadline });
     return reply.status(201).send();
 });
 
 server.put('/tasks/:id', async (request, reply) => {
     const id = request.params.id;
-    const { description, is_done } = request.body;
-    await database.update_task(id, { description, is_done });
+    const { title, description, status, priority, deadline } = request.body;
+    await database.update_task(id, { title, description, status, priority, deadline });
     return reply.status(204).send();
 });
 
@@ -83,26 +89,50 @@ server.delete('/tasks/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
-server.post('/login', async (request, reply) => {
-    const { email, password } = request.body;
-    console.log('Requisição post/login recebida')
+server.get('/board_users', async() => {
+    return await database.list_board_users();
+})
 
-    // Busca o usuário no banco de dados.
-    const users = await database.list_users();
-    const user = users.find(u => u.email === email && u.password_hash === password);
+server.post('/board_users', async (request, reply) => {
+    const {user_id, board_id, role} = request.body;
+    await database.create_board_user({user_id, board_id, role});
+    return reply.status(201).send();
+})
 
-    if (user) {
-        // Resposta de sucesso.
-        reply.code(200).send({ success: true, message: 'Login successful!' });
-    } else {
-        // Resposta de erro.
-        reply.code(401).send({ success: false, message: 'Invalid credentials.' });
-    }
+server.put('/board_users/:id', async (request, reply) => {
+    const id = request.params.id;
+    const {role} = request.body;
+    await database.update_board_user(id, {role})
+    return reply.status(204).send();
+})
+
+server.delete('/board_users/:id', async (request, reply) => {
+    const id = request.params.id;
+    await database.delete_board_user(id);
+    return reply.status(204).send();
+})
+
+
+server.get('/kanbans', { preHandler: authenticate }, async (request, reply) => {
+    const userId = request.user.id; // ID do usuário autenticado
+    const kanbans = await database.getUserKanbans(userId);
+    return reply.send(kanbans);
 });
 
+// Exemplo de login que gera o token
+server.post('/login', async (request, reply) => {
+    const { email, password } = request.body;
+    const users = await database.list_users();
+    const user = users.find(u => u.email === email && u.senha === password);
 
-
-
+    if (user) {
+        const token = generateToken({ id: user.id, email: user.email });
+        console.log(token)
+        reply.send({ token });
+    } else {
+        reply.code(401).send({ message: 'Credenciais inválidas.' });
+    }
+});
 
 // Start server
 server.listen({ port: 3333 }, (err, address) => {

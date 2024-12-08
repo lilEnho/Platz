@@ -113,3 +113,36 @@ function editTask() {
     closeModal();
     generateCards();
 }
+
+async function loadTasks() {
+    const token = localStorage.getItem('token'); // Recupera o token do localStorage
+
+    if (!token) {
+        alert('Você precisa estar logado.');
+        window.location.href = 'login.html'; // Redireciona para o login caso o token não exista
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3333/tasks', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Envia o token no cabeçalho da requisição
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Exibir as tarefas na página Kanban
+            displayTasks(data);
+        } else {
+            alert(data.message || 'Erro ao carregar as tarefas.');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar as tarefas:', error);
+        alert('Erro ao conectar ao servidor.');
+    }
+}
+
