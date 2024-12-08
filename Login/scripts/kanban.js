@@ -1,4 +1,3 @@
-
 const $modal = document.getElementById('modal');
 
 const $descriptionInput = document.getElementById('descricao');
@@ -12,39 +11,36 @@ const $editionMode = document.getElementById('editionMode');
 const $crationModeBtn = document.getElementById('creationModeBtn');
 const $editionModeBtn = document.getElementById('editionModeBtn');
 
-
 var taskList = []
 
-function openModal(id){
+function openModal(column){
     $modal.style.display = "flex";
+    $creationMode.style.display = "block";
+    $crationModeBtn.style.display = "block";
+    $editionMode.style.display = "none";
+    $editionModeBtn.style.display = "none";
+
+    document.getElementById('coluna').value = column;
+}
+
+function editModal(id){
+    $modal.style.display = "flex";
+    $creationMode.style.display = "none";
+    $crationModeBtn.style.display = "none";
+    $editionMode.style.display = "block";
+    $editionModeBtn.style.display = "block";
     
-    if(id){
-        
-        $creationMode.style.display = "none";
-        $crationModeBtn.style.display = "none";
+    const index = taskList.findIndex(function(task){
+        return task.id == id;
+    });
 
-        $editionMode.style.display = "block";
-        $editionModeBtn.style.display = "block";
-        
-        const index = taskList.findIndex(function(task){
-            return task.id == id;
-        });
+    const task = taskList[index];
 
-        const task = taskList[index];
-
-            $idInput.value = task.id;
-            $descriptionInput.value = task.description;
-            $priorityInput.value = task.priority;
-            $deadLineInput.value = task.deadline;
-            $columnInput.value = task.column;
-        
-    } else {
-        $creationMode.style.display = "block";
-        $crationModeBtn.style.display = "block";
-
-        $editionMode.style.display = "none";
-        $editionModeBtn.style.display = "none";
-    }
+    $idInput.value = task.id;
+    $descriptionInput.value = task.description;
+    $priorityInput.value = task.priority;
+    $deadLineInput.value = task.deadline;
+    $columnInput.value = task.column;
 }
 
 function closeModal(){
@@ -56,7 +52,7 @@ function closeModal(){
 }
 
 function columnReset(){
-    const columns = document.querySelectorAll('.body');
+    const columns = document.querySelectorAll('.task-list');
     columns.forEach(function(column){
         column.innerHTML = "";
     }); 
@@ -67,28 +63,32 @@ function generateCards() {
     taskList.forEach(function(task) {
         const formattedDeadline = moment(task.deadline).format('DD/MM/YYYY');
 
-        const columnBody = document.querySelector(`[data-coluna="${task.column}"] .body`);    
+        const columnBody = document.querySelector(`[data-coluna="${task.column}"] .task-list`);     
 
-         const card =`
-            <div class="card" ondblclick="openModal(${task.id})">
-                <div class="info">
-                    <b>Descrição</b>
-                    <span>${task.description}</span>
+        if (columnBody) {
+            const card =`
+                <div class="card" ondblclick="editModal(${task.id})">
+                    <div class="info">
+                        <b>Descrição</b>
+                        <span>${task.description}</span>
+                    </div>
+
+                    <div class="info">
+                        <b>Prioridade</b>
+                        <span>${task.priority}</span>
+                    </div>
+
+                    <div class="info">
+                        <b>Deadline</b>
+                        <span>${formattedDeadline}</span>
+                    </div>
                 </div>
+            `;
 
-                <div class="info">
-                    <b>Prioridade</b>
-                    <span>${task.priority}</span>
-                </div>
-
-                <div class="info">
-                    <b>Deadline</b>
-                    <span>${formattedDeadline}</span>
-                </div>
-            </div>
-        `;
-
-        columnBody.innerHTML += card;
+            columnBody.innerHTML += card;
+        } else {
+            console.error(`Column body not found for column: ${task.column}`);
+        }
     });
 }
 
@@ -104,7 +104,6 @@ function createTask() {
     generateCards();
     closeModal();
 }
-
 
 function editTask() {
     const task = {

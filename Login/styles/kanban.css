@@ -64,8 +64,14 @@ body {
     display: flex;
     flex-direction: column;
     background-color: var(--column-color);
-    gap: 20px;
+    gap: 10px;
     padding: 20px;
+}
+
+.container .coluna .body .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .container .coluna .body .task-add-btn {
