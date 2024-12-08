@@ -70,7 +70,7 @@ function generateCards() {
 
         if (columnBody) {
             const card =`
-                <div class="card" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
+                <div class="card ${task.priority}" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
                     <div class="info">
                         <b>Descrição</b>
                         <span>${task.description}</span>

@@ -126,12 +126,23 @@ body {
 }
 
 .container .coluna .body .card {
-    background-color: #EEE;
     border-radius: 7px;
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.baixa {
+    background-color: #9bffb2; /* Verde claro */
+}
+
+.media {
+    background-color: #ffe181; /* Laranja claro */
+}
+
+.alta {
+    background-color: #ffb0b6; /* Vermelho claro */
 }
 
 .container .coluna .body .card .info {
