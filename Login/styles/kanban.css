@@ -69,17 +69,17 @@ body {
 }
 
 .container .coluna .body .task-add-btn {
-    background-color: #5cb85c; /* Cor mais clara */
+    background-color: var(--primary-button); /* Cor do botão*/
     color: white;
     border-radius: 10px;
     border: none;
-    padding: 8px; /* Diminuir o padding */
+    padding: 8px; 
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     width: 100%;
-    font-size: 14px; /* Diminuir o tamanho da fonte */
+    font-size: 14px; 
     transition: background-color 0.3s ease;
 }
 
