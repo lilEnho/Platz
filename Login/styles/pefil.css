@@ -1,0 +1,228 @@
+:root {
+  --primary-color: rgb(132,14,201);
+  --column-color: rgb(34, 20, 43);
+  --background-color: rgb(34,34,34);
+  --primary-button: #3d7a0b;
+  --button-hover: #2d5a08;
+  --danger-color: #d9534f;
+  --button-border-radius: 8px;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: 15px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.KanBom {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  background-color: #444;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: var(--primary-button);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: var(--button-border-radius);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-3px);
+}
+
+#delete-account-button {
+  background-color: var(--danger-color);
+  display: block;        /* Faz o botão se comportar como um bloco */
+  margin: 20px auto;     /* Define uma margem automática nas laterais para centralizar */
+  padding: 10px 20px;    /* Ajuste no preenchimento para melhorar a aparência */
+  border: none;          /* Remover a borda do botão */
+  cursor: pointer;       /* Muda o cursor para um ponteiro ao passar o mouse */
+  text-align: center;    /* Centraliza o texto dentro do botão */
+  font-size: 16px;       /* Define o tamanho da fonte */
+  border-radius: 5px;    /* Adiciona bordas arredondadas */
+}
+
+#delete-account-button:hover {
+  background-color: darkred;  /* Alteração na cor ao passar o mouse */
+}
+
+#input-container,
+#input-container2 {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+}
+
+input {
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: #2e2e2e;
+  color: white;
+  margin-bottom: 10px;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+#username-display {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+button#usuario_botao {
+  margin-left: 10px;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+}
+
+button#save-button,
+button#save-password {
+  width: 100%;
+  max-width: 250px;
+}
+
+.edit-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+#current-password-display {
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 10px;
+}
+
+#toggle-password-visibility {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.header-btn-left {
+  background-color: white;       /* Cor de fundo branca */
+  color: #800080;                /* Cor do texto roxa */
+  border: 2px solid #800080;     /* Borda roxa */
+  padding: 10px 20px;            /* Preenchimento do botão */
+  cursor: pointer;              /* Cursor de mão ao passar o mouse */
+  border-radius: 50px;            /* Bordas arredondadas */
+  font-size: 16px;               /* Tamanho da fonte */
+  margin-left: 20px;
+}
+
+.header-btn-left:hover {
+  background-color: #f2f2f2;    /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo para o texto "Minha Conta" */
+.KanBom {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 20px;  /* Espaçamento à esquerda do texto */
+}
+
+/* Estilo para o botão "Logout" à direita */
+.header-btn-right {
+  background-color: red;          /* Cor de fundo vermelha */
+  color: white;                   /* Cor do texto branca */
+  border: none;                   /* Remover borda */
+  padding: 10px 20px;             /* Preenchimento do botão */
+  cursor: pointer;               /* Cursor de mão ao passar o mouse */
+  border-radius: 50px;             /* Bordas arredondadas */
+  font-size: 16px;                /* Tamanho da fonte */
+  margin-right: 20px ;
+}
+
+.header-btn-right:hover {
+  background-color: #cc0000;      /* Cor de fundo ao passar o mouse */
+}
+
+

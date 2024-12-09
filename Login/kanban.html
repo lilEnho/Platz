@@ -10,122 +10,126 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>Kanban Board</h1>
-        <button id="novaTarefa" class="primario" onclick="openModal()">Nova Tarefa</button>
-    </div>
-    <div class="container">
-        <div class="coluna" data-coluna="1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-            <div class="head">
-                <span>Pendente</span>
-            </div>
-            <div class="body">
-                <div class="task-list">
-                    <!-- preenchido com cartoes aqui -->
-                </div>
-                <button class="task-add-btn" onclick="openModal(1)">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    Adicionar Tarefa
-                </button>
-            </div>
+<div class="header">
+    <h1>Kanban Board</h1>
+    <button class="primario" onclick="window.location.href='perfil.html'">Editar Perfil</button>
+    <!-- Adicionando o botão "Encerrar Sessão" -->
+    <button class="primario"  style="background-color: darkred" onclick="window.location.href='login.html'">Logout</button>
+</div>
+<div class="container">
+    <div class="coluna" data-coluna="1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <div class="head">
+            <span>Pendente</span>
         </div>
-        <div class="coluna" data-coluna="2" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-            <div class="head">
-                <span>Em Andamento</span>
+        <div class="body">
+            <div class="task-list">
+                <!-- preenchido com cartoes aqui -->
             </div>
-            <div class="body">
-                <div class="task-list">
-                    <!-- preenchido com cartoes aqui -->
-                </div>
-                <button class="task-add-btn" onclick="openModal(2)">
+            <button class="task-add-btn" onclick="openModal(1)">
                     <span class="material-symbols-outlined">
                         add
                     </span>
-                    Adicionar Tarefa
-                </button>
-            </div>
-        </div>
-        <div class="coluna" data-coluna="3" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-            <div class="head">
-                <span>Finalizado</span>
-            </div>
-            <div class="body">
-                <div class="task-list">
-                    <!-- preenchido com cartoes aqui -->
-                </div>
-                <button class="task-add-btn" onclick="openModal(3)">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    Adicionar Tarefa
-                </button>
-            </div>
-        </div>
-        <div class="coluna" data-coluna="4" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-            <div class="head">
-                <span>Arquivado</span>
-            </div>
-            <div class="body">
-                <div class="task-list">
-                    <!-- preenchido com cartoes aqui -->
-                </div>
-                <button class="task-add-btn" onclick="openModal(4)">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    Adicionar Tarefa
-                </button>
-            </div>
+                Adicionar Tarefa
+            </button>
         </div>
     </div>
-    
-    <div id="modal">
-        <div class="box">
-            <div class="head">
-                <span id="creationMode">Nova Tarefa</span>
-                <span id="editionMode">Editar Tarefa</span>
-                <button class="material-symbols-outlined" onclick="closeModal()">
-                    close
-                </button>
+    <div class="coluna" data-coluna="2" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <div class="head">
+            <span>Em Andamento</span>
+        </div>
+        <div class="body">
+            <div class="task-list">
+                <!-- preenchido com cartoes aqui -->
             </div>
-            <div class="form">
-                <input type="hidden" id="idInput">
-                <div class="form-group">
-                    <label for="">Descrição</label>
-                    <textarea name="descricao" rows="3" id="descricao"></textarea>
-                </div>
+            <button class="task-add-btn" onclick="openModal(2)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                Adicionar Tarefa
+            </button>
+        </div>
+    </div>
+    <div class="coluna" data-coluna="3" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <div class="head">
+            <span>Finalizado</span>
+        </div>
+        <div class="body">
+            <div class="task-list">
+                <!-- preenchido com cartoes aqui -->
+            </div>
+            <button class="task-add-btn" onclick="openModal(3)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                Adicionar Tarefa
+            </button>
+        </div>
+    </div>
+    <div class="coluna" data-coluna="4" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <div class="head">
+            <span>Arquivado</span>
+        </div>
+        <div class="body">
+            <div class="task-list">
+                <!-- preenchido com cartoes aqui -->
+            </div>
+            <button class="task-add-btn" onclick="openModal(4)">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                Adicionar Tarefa
+            </button>
+        </div>
+    </div>
+</div>
 
-                <div class="form-group">
-                    <label for="prioridade">Prioridade</label>
-                    <select id="prioridade">
-                        <option value="baixa">Baixa</option>
-                        <option value="media">Media</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                </div>
+<div id="modal">
+    <div class="box">
+        <div class="head">
+            <span id="creationMode">Nova Tarefa</span>
+            <span id="editionMode">Editar Tarefa</span>
+            <button class="material-symbols-outlined" onclick="closeModal()">
+                close
+            </button>
+        </div>
+        <div class="form">
+            <input type="hidden" id="idInput">
+            <div class="form-group">
+                <label for="">Descrição</label>
+                <textarea name="descricao" rows="3" id="descricao"></textarea>
+            </div>
 
-                <div class="form-group">
-                    <label for="coluna">Coluna</label>
-                    <select id="coluna">
-                        <option value="1">Pendente</option>
-                        <option value="2">Em Andamento</option>
-                        <option value="3">Finalizado</option>
-                        <option value="4">Arquivado</option>    
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="prioridade">Prioridade</label>
+                <select id="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Media</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
 
-                <div class="form-group">
-                    <label >Prazo</label>
-                    <input type="date" id="deadline">
-                </div>
+            <div class="form-group">
+                <label for="coluna">Coluna</label>
+                <select id="coluna">
+                    <option value="1">Pendente</option>
+                    <option value="2">Em Andamento</option>
+                    <option value="3">Finalizado</option>
+                    <option value="4">Arquivado</option>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <label >Prazo</label>
+                <input type="date" id="deadline">
+            </div>
+            <div class="form-btn">
+                <button class="primario delete-btn" onclick="deleteTask()" id="deleteModeBtn" style="display: none;">Excluir</button>
                 <button class="primario" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
                 <button class="primario" onclick="editTask()" id="editionModeBtn">Salvar</button>
             </div>
         </div>
     </div>
-    <script src="scripts/kanban.js"></script>
+</div>
+<script src="scripts/kanban.js"></script>
 </body>
 </html>

@@ -9,19 +9,19 @@ export class Database_postgres {
 
     async create_user(user) {
 
-        const { username, email, senha, nome } = user;
+        const { email, senha, nome } = user;
         await sql`
-            INSERT INTO users (username, email, senha, nome)
-            VALUES (${username}, ${email}, ${senha}, ${nome})
+            INSERT INTO users (email, senha, nome)
+            VALUES (${email}, ${senha}, ${nome})
         `;
         return user;
     }
 
     async update_user(id, user) {
-        const { username, senha, nome} = user;
+        const {senha, nome} = user;
         await sql`
             UPDATE users
-            SET username = ${username}, senha = ${senha}, nome = ${nome}
+            SET senha = ${senha}, nome = ${nome}
             WHERE id = ${id}
         `;
     }
@@ -65,35 +65,47 @@ export class Database_postgres {
     }
 
     async getTasksForUser(user_id) {
-        return await sql`
-            SELECT tasks.*
-            FROM tasks
-                     JOIN boards ON tasks.board_id = boards.id
-            WHERE boards.owner_id = ${user_id};
-        `;
+        try {
+            return await sql`
+                SELECT tasks.*
+                FROM tasks
+                         JOIN users ON tasks.user_id = users.id
+                WHERE tasks.user_id = ${user_id};
+            `;
+        } catch (error) {
+            console.error("Erro ao buscar tarefas:", error);  // Log do erro
+            throw new Error('Erro ao carregar tarefas do banco de dados.');
+        }
     }
 
 
 
 
     async create_task(task) {
-        const { title, description, status, board_id, priority, deadline } = task;
+        const { id, description, priority, deadline, coluna, user_id } = task;
 
+        // O valor do "deadline" pode ser "sem deadline", então inserimos diretamente
         await sql`
-            INSERT INTO tasks (title, description, status, board_id, priority, deadline)
-            VALUES (${title}, ${description}, ${status}, ${board_id}, ${priority}, ${deadline} )
+            INSERT INTO tasks (id, description, priority, deadline, coluna, user_id)
+            VALUES (${id}, ${description}, ${priority}, ${deadline}, ${coluna}, ${user_id})
         `;
         return task;
     }
 
+
+
     async update_task(id, task) {
-        const { title, description, status, priority, deadline } = task;
-        await sql`
-            UPDATE tasks
-            SET title = ${title}, description = ${description}, status = ${status}, priority = ${priority}, deadline = ${deadline}
-            WHERE id = ${id}
-        `;
+        const { description, priority, deadline, coluna } = task;
+
+        // Realiza a atualização na tabela tasks
+          // Retorna a linha atualizada (se houver)
+        return await sql`
+        UPDATE tasks
+        SET description = ${description}, priority = ${priority}, deadline = ${deadline}, coluna = ${coluna}
+        WHERE id = ${id}
+        RETURNING *;`;  // Retorna o resultado para verificação no método PUT
     }
+
 
     async delete_task(id) {
         await sql`DELETE FROM tasks WHERE id = ${id}`;
@@ -122,4 +134,19 @@ export class Database_postgres {
     async delete_board_user(id){
         await sql `DELETE FROM board_users WHERE id = ${id}`;
     }
+
+    async getUserById(userId) {
+        try {
+            const user = await sql`
+            SELECT * 
+            FROM users 
+            WHERE id = ${userId}
+        `;
+            return user;
+        } catch (err) {
+            throw new Error('Erro ao buscar o usuário');
+        }
+    }
+
 }
+

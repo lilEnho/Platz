@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/pefil.css">
+</head>
+<body>
+<div class="header">
+    <!-- Botão "Quadros" à esquerda de "Minha Conta" -->
+    <a href="kanban.html">
+        <button class="header-btn-left">Quadros</button>
+    </a>
+
+    <!-- Texto "Minha Conta" -->
+    <span class="KanBom">Minha Conta</span>
+
+    <!-- Botão "Logout" à direita de "Minha Conta" -->
+    <a href="login.html">
+        <button class="header-btn-right">Logout</button>
+    </a>
+</div>
+
+<div class="main">
+    <h2>Bem-vindo(a), <span id="id_usario"></span></h2>
+
+    <!-- Informações do Usuário -->
+    <div class="user-info">
+        <span>Email: <span id="user-email">usuario@exemplo.com</span></span>
+    </div>
+
+    <!-- Exibição do nome do usuário -->
+    <div id="username-display" class="user-info">
+        <span id="current-name">Nome de Usuário</span>
+        <button id="usuario_botao" class="edit-btn">Alterar Nome</button>
+    </div>
+
+    <!-- Alterar senha -->
+    <div class="user-info">
+        <button type="button" id="toggle-password-visibility">👁️</button>
+        <span id="current-password-display" style="margin-left: 10px;">******</span>
+        <button id="senha_botao" class="edit-btn">Alterar Senha</button>
+    </div>
+
+    <!-- Deletar conta -->
+    <div class="user-info">
+        <button id="delete-account-button">Excluir Conta</button>
+    </div>
+
+    <!-- Container para alteração do nome -->
+    <div id="input-container">
+        <input type="text" id="username-input" placeholder="Novo nome">
+        <button id="save-button">Salvar Nome</button>
+        <button id="cancel-name-button" style="background-color: #e85151">Cancelar</button>
+    </div>
+
+    <!-- Container para alteração da senha -->
+    <div id="input-container2">
+        <input type="password" id="password-input" placeholder="Nova senha">
+        <button id="save-password">Salvar Senha</button>
+        <button id="cancel-password-button" style="background-color: #e85151">Cancelar</button>
+    </div>
+
+</div>
+
+<script src="scripts/perfil.js"></script>
+</body>
+</html>
