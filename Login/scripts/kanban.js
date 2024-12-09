@@ -1,15 +1,19 @@
+// Modal
 const $modal = document.getElementById('modal');
 
+// Elementos Input
 const $descriptionInput = document.getElementById('descricao');
 const $priorityInput = document.getElementById('prioridade');
 const $columnInput = document.getElementById('coluna');
 const $deadLineInput = document.getElementById('deadline');
 const $idInput = document.getElementById('idInput');
 
+// Elementos de Modo de Criação e Edição
 const $creationMode = document.getElementById('creationMode');
 const $editionMode = document.getElementById('editionMode');
 const $crationModeBtn = document.getElementById('creationModeBtn');
 const $editionModeBtn = document.getElementById('editionModeBtn');
+const $deleteModeBtn = document.getElementById('deleteModeBtn');
 
 var taskList = []
 
@@ -29,6 +33,7 @@ function editModal(id){
     $crationModeBtn.style.display = "none";
     $editionMode.style.display = "block";
     $editionModeBtn.style.display = "block";
+    $deleteModeBtn.style.display = "block";
 
     const index = taskList.findIndex(function(task){
         return task.id == id;
@@ -49,8 +54,10 @@ function closeModal(){
     $priorityInput.value = "";
     $deadLineInput.value = "";
     $columnInput.value = "";
+    $deleteModeBtn.style.display = "none";
 }
 
+// Função para resetar as colunas
 function columnReset(){
     const columns = document.querySelectorAll('.task-list');
     columns.forEach(function(column){
@@ -58,18 +65,24 @@ function columnReset(){
     });
 }
 
+// Função para gerar as cartas no Kanban
 function generateCards() {
     columnReset();
-    console.log(taskList); // Verifique se a propriedade "column" está presente e correta
-    taskList.forEach(function(task) {
-        const formattedDeadline = task.deadline === "Sem deadline"
-            ? "Sem deadline"  // Mantém "sem deadline" se for o valor
-            : moment(task.deadline).isValid()
-                ? moment(task.deadline).format('DD/MM/YYYY')  // Formata se for uma data válida
-                : "Data inválida";  // Para o caso de dados inválidos
+    // Ordenar tarefas por deadline
+    taskList.sort((a, b) => {
+        if (!a.deadline) return -1;
+        if (!b.deadline) return 1;
+        return new Date(a.deadline) - new Date(b.deadline);
+    });
 
-        console.log(task.coluna)
-        // Valores válidos para a coluna (números como string)
+    taskList.forEach(function(task) {
+        // Formatar data
+        const formattedDeadline = task.deadline ? moment(task.deadline).format('DD/MM/YYYY') : 'Sem Prazo';
+
+        // Definir prioridade
+        const priority = task.priority ? task.priority : 'Não Definido';
+        const priorityClass = task.priority ? task.priority : 'nao-definido';
+
         const validValues = ["1", "2", "3", "4"];
 
         if (!validValues.includes(task.column)) {
@@ -91,16 +104,11 @@ function generateCards() {
             }
         }
 
-// Agora task.column deve ter um valor entre "1" a "4"
-
-
         const columnBody = document.querySelector(`[data-coluna="${task.column}"] .task-list`);
-
-        console.log(columnBody)
 
         if (columnBody) {
             const card =`
-                <div class="card" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
+                <div class="card ${priorityClass}" id="${task.id}" ondblclick="editModal(${task.id})" draggable="true" ondragstart="dragstartHandler(event)">
                     <div class="info">
                         <b>Descrição</b>
                         <span>${task.description}</span>
@@ -108,7 +116,7 @@ function generateCards() {
 
                     <div class="info">
                         <b>Prioridade</b>
-                        <span>${task.priority}</span>
+                        <span>${priority}</span>
                     </div>
 
                     <div class="info">
@@ -132,16 +140,15 @@ function generateCards() {
     });
 }
 
+
 function createTask() {
     const newTask = {
-        id: Math.floor(Math.random() * 999999999), // Gerar ID manualmente
+        id: Math.floor(Math.random() * 999999999),
         description: $descriptionInput.value,
         priority: $priorityInput.value,
-        deadline: $deadLineInput.value || "Sem deadline",  // Define valor padrão se não houver data
-        column: $columnInput.value, // 'coluna' no backend
+        deadline: $deadLineInput.value,
+        column: $columnInput.value,
     };
-
-    // Exibir a tarefa no frontend
     taskList.push(newTask);
     generateCards();
     closeModal();
@@ -171,29 +178,26 @@ function createTask() {
         });
 }
 
-
-
-
 function editTask() {
     const task = {
         id: $idInput.value,
         description: $descriptionInput.value,
         priority: $priorityInput.value,
-        deadline: $deadLineInput.value || "Sem deadline", // Definindo "Sem deadline" se estiver vazio
+        deadline: $deadLineInput.value,
         column: $columnInput.value,
     };
 
-    const index = taskList.findIndex(function(task) {
+    const index = taskList.findIndex(function(task){
         return task.id == $idInput.value;
     });
 
-    // Atualiza o taskList localmente
     taskList[index] = task;
 
-    generateCards();  // Regenera os cartões na interface
+    generateCards();
     closeModal();  // Fecha o modal
 
     // Envia a requisição PUT para o backend
+    console.log(task.id)
     const token = localStorage.getItem('token');
     fetch(`http://localhost:3333/tasks/${task.id}`, {
         method: 'PUT',
@@ -224,7 +228,6 @@ function moveTaskColumn(id, column) {
         return;
     }
 
-    // Encontre a tarefa a ser movida
     const task = taskList.find(t => t.id == id);
     if (!task) {
         console.error('Tarefa não encontrada');
@@ -240,7 +243,7 @@ function moveTaskColumn(id, column) {
     // Atualiza o taskList localmente
     taskList = taskList.map(t => (t.id == id ? updatedTask : t));
 
-    generateCards();  // Regenera os cartões na interface
+    generateCards();
 
     // Envia a requisição PUT para o backend
     const token = localStorage.getItem('token');
@@ -266,7 +269,31 @@ function moveTaskColumn(id, column) {
         });
 }
 
-
+// Função para deletar uma task
+function deleteTask() {
+    const taskId = $idInput.value;
+    taskList = taskList.filter(task => task.id != taskId);
+    generateCards();
+    closeModal();
+    // adicionar delete http
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:3333/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Envia o token de autenticação
+        },
+    })
+        .then(response => {
+            if (response.status === 204) {
+                console.log('Tarefa deletada com sucesso');
+            } else {
+                console.error('Erro ao deletar tarefa no backend');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao enviar requisição DELETE:', error);
+        });
+}
 
 function dragstartHandler(ev) {
     ev.dataTransfer.setData("data", ev.target.getAttribute('id'));
@@ -281,6 +308,8 @@ function dropHandler(ev) {
     ev.preventDefault();
     const task_id = ev.dataTransfer.getData("data");
     const column_id = ev.target.parentElement.getAttribute('data-coluna');
+    console.log("task_id", task_id)
+    console.log("column_id", column_id)
     moveTaskColumn(task_id, column_id);
 }
 

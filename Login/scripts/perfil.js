@@ -139,6 +139,7 @@ async function fetchUser() {
         currentNameSpan.textContent = currentName; // Atualiza o nome na interface
         displaySpan.textContent = currentName; // Atualiza o nome no display
         userId = user[0].id;
+        console.log("verme:", user[0].id)
         currentPassword = user[0].senha; // Armazena a senha atual, se fornecida
         currentPasswordDisplay.textContent = '******';  // Exibe a senha oculta por padrão
     } catch (error) {
@@ -158,6 +159,7 @@ deleteAccountButton.addEventListener('click', async () => {
             throw new Error('Token não encontrado');
         }
 
+        console.log("user id:", userId)
         const response = await fetch(`http://localhost:3333/users/${userId}`, {
             method: 'DELETE',
             headers: {

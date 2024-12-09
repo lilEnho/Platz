@@ -3,6 +3,10 @@
     --column-color: rgb(34, 20, 43);
     --backgroud-color: rgb(34,34,34);
     --primary-button: #3d7a0b;
+    --font-size: 1rem;
+    --padding: 1rem;
+    --margin: 1rem;
+    --border-radius: 0.5rem;
 }
 
 
@@ -17,16 +21,21 @@
 body {
     background-color: var(--backgroud-color);
     color: white;
+    font-size: var(--font-size);
 }
 
 .primario {
     border: none;
     background-color: var(--primary-button);
     color: white;
-    font-size: 16px;
-    padding: 9px 12px;
-    border-radius: 6px;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
+}
+
+.primario:hover {
+    background-color: #4cae4c;
 }
 
 .header {
@@ -35,80 +44,82 @@ body {
     justify-content: space-between;
     align-items: center;
     background-color: var(--primary-color);
-    padding: 30px;
+    padding: var(--padding);
 }
 
 .container {
     display: flex;
-    gap: 30px;
+    gap: var(--margin);
     justify-content: center;
     align-items: flex-start;
-    padding: 50px 0;
+    padding: var(--padding) 0;
 }
 
 .container .coluna {
-    width: 270px; /* Aumentar a largura das colunas */
-    height: 650px; /* Aumentar a altura das colunas */
+    width: 100%;
+    max-width: 270px;
+    height: 100%;
+    max-height: 650px;
     background-color: var(--column-color);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 20px; /* Adicionar padding para aumentar a área de drop */
-    margin: 20px; /* Adicionar margin para aumentar a área de drop */
+    padding: var(--padding);
+    margin: var(--margin);
 }
 
 .container .coluna .head {
     background-color: var(--primary-color);
-    padding: 15px;
+    padding: 0.75rem;
     text-align: center;
-    border-radius: 3px;
+    border-radius: calc(var(--border-radius) / 2);
 }
 
 .container .coluna .body {
     display: flex;
     flex-direction: column;
     background-color: var(--column-color);
-    gap: 10px;
-    padding: 20px;
+    gap: 0.5rem;
+    padding: var(--padding);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #af94c9 var(--column-color);
 }
 
 .container .coluna .body::-webkit-scrollbar {
-    width: 8px;
+    width: 0.5rem;
 }
 
 .container .coluna .body::-webkit-scrollbar-track {
     background: var(--column-color);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 .container .coluna .body::-webkit-scrollbar-thumb {
     background-color: var(--primary-button);
-    border-radius: 10px;
-    border: 2px solid var(--column-color);
+    border-radius: var(--border-radius);
+    border: 0.125rem solid var(--column-color);
 }
 
 .container .coluna .body .task-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
 .container .coluna .body .task-add-btn {
     background-color: var(--primary-button); /* Cor do botão*/
     color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: none;
-    padding: 8px;
+    padding: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     width: 100%;
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: background-color 0.3s ease;
 }
 
@@ -117,21 +128,36 @@ body {
 }
 
 .container .coluna .body .task-add-btn .material-symbols-outlined {
-    margin-right: 5px;
-    font-size: 18px; /* Diminuir o tamanho do ícone */
+    margin-right: 0.25rem;
+    font-size: 1.125rem; /* Diminuir o tamanho do ícone */
 }
 
 .container .coluna .body .card {
-    background-color: #EEE;
-    border-radius: 7px;
-    padding: 10px;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.5rem;
+}
+
+.baixa {
+    background-color: #9bffb2; /* Verde claro */
+}
+
+.media {
+    background-color: #ffe181; /* Laranja claro */
+}
+
+.alta {
+    background-color: #ffb0b6; /* Vermelho claro */
+}
+
+.nao-definido {
+    background-color: #DDD; /* Cor para prioridade não definida */
 }
 
 .container .coluna .body .card .info {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #333;
     display: flex;
     flex-direction: column;
@@ -151,20 +177,21 @@ body {
 
 #modal .box {
     background-color: var(--primary-color);
-    width: 400px;
-    border-radius: 7px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: var(--border-radius);
     overflow: hidden;
 }
 
 #modal .box .head {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 0.5rem;
     border-bottom: 1px solid #DDD;
 }
 
 #modal .box .head span {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
     color: #DDD;
 }
@@ -172,48 +199,82 @@ body {
 #modal .box .head button {
     border: none;
     background: none;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 700;
     cursor: pointer;
     color: #DDD;
 }
 
 #modal .box .form {
-    padding: 20px;
+    padding: var(--padding);
 }
 
 #modal .box .form .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 0.75rem;
 }
 
 #modal .box .form label {
     display: block;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #DDD;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 #modal .box .form textarea,
 #modal .box .form select,
 #modal .box .form input {
     width: 100%;
-    border-radius: 7px;
-    padding: 10px 15px;
-    font-size: 14px;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    font-size: 0.875rem;
     border: 1px solid #999;
     color: #333;
 }
 
 #modal .box .form textarea {
-    padding: 10px 15px;
+    padding: 0.5rem;
 }
 
 #modal .box .form select {
-    padding: 10px;
+    padding: 0.5rem;
 }
 
 #modal .box .form button {
     display: block;
     margin-left: auto;
+}
+
+#modal .box .form-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+#modal .box .form button.delete-btn {
+    display: block;
+    background-color: #d9534f;
+    color: white;
+    margin-left: 0;
+}
+
+#modal .box .form button.delete-btn:hover {
+    background-color: #e07875;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container .coluna {
+        width: 90%;
+        max-width: none;
+    }
 }

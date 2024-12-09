@@ -122,9 +122,11 @@
                 <label >Prazo</label>
                 <input type="date" id="deadline">
             </div>
-
-            <button class="primario" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
-            <button class="primario" onclick="editTask()" id="editionModeBtn">Salvar</button>
+            <div class="form-btn">
+                <button class="primario delete-btn" onclick="deleteTask()" id="deleteModeBtn" style="display: none;">Excluir</button>
+                <button class="primario" onclick="createTask()" id="creationModeBtn">Cadastrar</button>
+                <button class="primario" onclick="editTask()" id="editionModeBtn">Salvar</button>
+            </div>
         </div>
     </div>
 </div>
