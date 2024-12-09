@@ -17,6 +17,9 @@ Página principal do Kanban board, onde os usuários podem visualizar, criar, ed
 ### `cadastro.html`
 Página de cadastro de novos usuários.
 
+### `perfil.html`
+Página de perfil do usuário, onde é possível visualizar e editar informações pessoais.
+
 ### `styles/style.css`
 Arquivo de estilos para a página de login, definindo a aparência geral e layout.
 
@@ -28,6 +31,15 @@ Arquivo de definição das fontes utilizadas no projeto.
 
 ### `scripts/kanban.js`
 Arquivo JavaScript contendo a lógica para manipulação das tarefas no Kanban board, incluindo criação, edição, exclusão e movimentação de tarefas.
+
+### `scripts/auth.js`
+Arquivo JavaScript contendo a lógica para autenticação de usuários, incluindo login e redirecionamento para a página de cadastro.
+
+### `scripts/cadastro.js`
+Arquivo JavaScript contendo a lógica para o cadastro de novos usuários, incluindo validação de campos e envio de dados para o backend.
+
+### `scripts/perfil.js`
+Arquivo JavaScript contendo a lógica para manipulação do perfil do usuário, incluindo visualização e edição de informações pessoais, alteração de senha e exclusão de conta.
 
 ### `components/fonts/stylesheet.css`
 Arquivo de definição das fontes utilizadas no projeto, importando as fontes necessárias.
