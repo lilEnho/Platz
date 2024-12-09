@@ -60,3 +60,4 @@ async function handleLogin(event) {
         console.error('Erro:', error);
     }
 }
+

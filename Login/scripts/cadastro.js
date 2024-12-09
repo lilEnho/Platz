@@ -25,16 +25,15 @@ async function handleCadastro(event) {
     event.preventDefault(); // Evita o envio padrão do formulário (recarregar a página)
 
     // Pegando os valores dos campos
-    const nome = document.querySelector('input[placeholder="Nome Completo"]').value.trim();
+    const nome = document.querySelector('input[placeholder="Nome"]').value.trim();
     const email = document.querySelector('input[placeholder="Email"]').value.trim();
-    const username = document.querySelector('input[placeholder="Nome de Usuário"]').value.trim();
     const senha = document.querySelector('input[placeholder="Senha"]').value.trim();
     const senhaConfirmada = document.querySelector('input[placeholder="Confirme a Senha"]').value.trim();
 
     const statusMessage = document.querySelector('form > div');
 
     // Validando os campos
-    if (!nome || !email || !username || !senha || !senhaConfirmada) {
+    if (!nome || !email || !senha || !senhaConfirmada) {
         statusMessage.textContent = 'Por favor, preencha todos os campos.';
         statusMessage.style.color = 'red';
         return;
@@ -53,7 +52,7 @@ async function handleCadastro(event) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, email, senha, nome }),
+            body: JSON.stringify({ email, senha, nome }),
         });
 
         const data = await response.json();

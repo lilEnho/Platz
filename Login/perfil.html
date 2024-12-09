@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/pefil.css">
+</head>
+<body>
+<div class="header">
+    <a href="login.html" class="KanBom">Minha Conta</a>
+</div>
+
+<div class="main">
+    <h2>Bem-vindo(a), <span id="id_usario"></span></h2>
+
+    <!-- Exibição do nome do usuário -->
+    <div id="username-display" class="user-info">
+        <span id="current-name">Nome de Usuário</span>
+        <button id="usuario_botao" class="edit-btn">Alterar Nome</button>
+    </div>
+
+    <!-- Informações do Usuário -->
+    <div class="user-info">
+        <span>Email: <span id="user-email">usuario@exemplo.com</span></span>
+    </div>
+
+    <!-- Alterar senha -->
+    <div class="user-info">
+        <button id="senha_botao">Alterar Senha</button>
+    </div>
+
+    <!-- Deletar conta -->
+    <div class="user-info">
+        <button id="delete-account-button">Excluir Conta</button>
+    </div>
+
+    <!-- Container para alteração do nome -->
+    <div id="input-container">
+        <input type="text" id="username-input" placeholder="Novo nome">
+        <button id="save-button">Salvar Nome</button>
+    </div>
+
+    <!-- Container para alteração da senha -->
+    <div id="input-container2">
+        <input type="password" id="password-input" placeholder="Nova senha">
+        <button id="save-password">Salvar Senha</button>
+    </div>
+</div>
+
+<script src="scripts/perfil.js"></script>
+</body>
+</html>
