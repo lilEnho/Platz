@@ -1,7 +1,7 @@
 import postgres from 'postgres'
 import 'dotenv/config'
 import * as dotenv from "dotenv";
-dotenv.config({path: 'C:\\Users\\Leonardo\\Desktop\\Platz\\Platz\\.env'})
+dotenv.config()
 
 console.log(process.env.PGHOST); // Verifica se o PGHOST está sendo carregado corretamente
 console.log(process.env.PGUSER); // Verifica se o PGUSER está sendo carregado corretamente

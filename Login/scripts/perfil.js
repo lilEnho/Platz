@@ -3,6 +3,8 @@ const saveButton = document.getElementById('save-button');
 const usernameInput = document.getElementById('username-input');
 const displaySpan = document.getElementById('id_usario');
 const inputContainer = document.getElementById('input-container');
+const currentNameSpan = document.getElementById('current-name');
+const emailspan = document.getElementById('user-email')// Adicionado para o nome atual
 
 const changeNameButton = document.getElementById('usuario_botao'); // Botão Alterar Nome
 const changePasswordButton = document.getElementById('senha_botao'); // Botão Alterar Senha
@@ -10,10 +12,13 @@ const inputContainerPassword = document.getElementById('input-container2');
 const savePasswordButton = document.getElementById('save-password');
 const passwordInput = document.getElementById('password-input');
 const deleteAccountButton = document.getElementById('delete-account-button');
+const togglePasswordVisibilityButton = document.getElementById('toggle-password-visibility');
+const currentPasswordDisplay = document.getElementById('current-password-display');
 
 let userId; // Variável global para armazenar o ID do usuário
 let currentName; // Armazena o nome atual do usuário
 let currentPassword = ''; // Armazena a senha atual do usuário
+let currentEmail;
 
 // Exibir o campo de entrada para alteração de nome
 changeNameButton.addEventListener('click', () => {
@@ -52,8 +57,9 @@ saveButton.addEventListener('click', async () => {
             throw new Error('Erro ao atualizar o nome do usuário');
         }
 
-        displaySpan.textContent = newName;
         currentName = newName; // Atualiza o nome atual na memória
+        currentNameSpan.textContent = newName; // Atualiza o nome na interface
+        displaySpan.textContent = newName; // Atualiza o nome no display
         inputContainer.style.display = 'none'; // Esconde o container de entrada
         alert('Nome atualizado com sucesso!');
     } catch (error) {
@@ -127,10 +133,14 @@ async function fetchUser() {
         }
 
         const user = await response.json();
-        displaySpan.textContent = user[0].nome;
-        userId = user[0].id;
         currentName = user[0].nome; // Armazena o nome atual
-        currentPassword = user[0].senha || ''; // Armazena a senha atual, se fornecida
+        currentEmail = user[0].email;
+        emailspan.textContent = currentEmail
+        currentNameSpan.textContent = currentName; // Atualiza o nome na interface
+        displaySpan.textContent = currentName; // Atualiza o nome no display
+        userId = user[0].id;
+        currentPassword = user[0].senha; // Armazena a senha atual, se fornecida
+        currentPasswordDisplay.textContent = '******';  // Exibe a senha oculta por padrão
     } catch (error) {
         console.error('Erro:', error);
         alert('Erro ao carregar os dados do usuário.');
@@ -148,7 +158,6 @@ deleteAccountButton.addEventListener('click', async () => {
             throw new Error('Token não encontrado');
         }
 
-        console.log("user id excluir conta:", userId)
         const response = await fetch(`http://localhost:3333/users/${userId}`, {
             method: 'DELETE',
             headers: {
@@ -168,3 +177,28 @@ deleteAccountButton.addEventListener('click', async () => {
         alert('Erro ao excluir a conta.');
     }
 });
+
+togglePasswordVisibilityButton.addEventListener('click', () => {
+    const currentType = currentPasswordDisplay.textContent === '******' ? 'text' : 'password';
+
+    if (currentType === 'text') {
+        currentPasswordDisplay.textContent = currentPassword;  // Mostra a senha
+    } else {
+        currentPasswordDisplay.textContent = '******';  // Oculta a senha
+    }
+});
+
+// Adicionando os eventos para o botão "Cancelar" de Nome
+const cancelNameButton = document.getElementById('cancel-name-button');
+cancelNameButton.addEventListener('click', () => {
+    inputContainer.style.display = 'none'; // Esconde a div de alteração de nome
+    usernameInput.value = ''; // Limpa o campo de entrada de nome
+});
+
+// Adicionando os eventos para o botão "Cancelar" de Senha
+const cancelPasswordButton = document.getElementById('cancel-password-button');
+cancelPasswordButton.addEventListener('click', () => {
+    inputContainerPassword.style.display = 'none'; // Esconde a div de alteração de senha
+    passwordInput.value = ''; // Limpa o campo de entrada de senha
+});
+
