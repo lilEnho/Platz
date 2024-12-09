@@ -14,17 +14,19 @@ server.register(fastifyCors, {
     methods: ['GET', 'POST', 'PUT', 'DELETE'] // Permite esses métodos
 });
 
-// USERS
+// Lista usuários cadastrados.
 server.get('/users', async () => {
     return await database.list_users();
 });
 
+// Cadastra novo usuário
 server.post('/users', async (request, reply) => {
     const { username, email, senha , nome } = request.body;
     await database.create_user({ username, email, senha, nome});
-    return reply.status(201).send({message: "Usuário cadastrado co sucesso!"});
+    return reply.status(201).send({message: "Usuário cadastrado com sucesso!"});
 });
 
+// Atualiza cadastro de usuário identificado pelo id
 server.put('/users/:id', async (request, reply) => {
     const id = request.params.id;
     const { username, senha, nome} = request.body;
@@ -32,23 +34,26 @@ server.put('/users/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
+// Deleta usuário identificado pelo id
 server.delete('/users/:id', async (request, reply) => {
     const id = request.params.id;
     await database.delete_user(id);
     return reply.status(204).send();
 });
 
-// boards
+// Lista os quadros disponíveis
 server.get('/boards', async () => {
     return await database.list_boards();
 });
 
+// Cria um novo quadro
 server.post('/boards', async (request, reply) => {
     const { nome, description, owner_id } = request.body;
     await database.create_board({ nome, description, owner_id });
     return reply.status(201).send();
 });
 
+// Atualiza informações em um quadro
 server.put('/boards/:id', async (request, reply) => {
     const id = request.params.id;
     const { nome, description } = request.body;
@@ -56,6 +61,7 @@ server.put('/boards/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
+// Exclui um quadro
 server.delete('/boards/:id', async (request, reply) => {
     const id = request.params.id;
     await database.delete_board(id);
@@ -63,19 +69,21 @@ server.delete('/boards/:id', async (request, reply) => {
 });
 
 // TASKS
+// Lista as tarefas do usuário
 server.get('/tasks', { preHandler: authenticate }, async (request, reply) => {
     const userId = request.user.id; // O ID do usuário autenticado
     const tasks = await database.getTasksForUser(userId); // Recupera as tarefas do usuário
     reply.send(tasks); // Envia as tarefas de volta para o cliente
 });
 
-
+// Cria uma nova tarefa
 server.post('/tasks', async (request, reply) => {
     const { title, description, status, board_id, priority, deadline } = request.body;
     await database.create_task({ title, description, status, board_id, priority, deadline });
     return reply.status(201).send();
 });
 
+// Atualiza uma tarefa
 server.put('/tasks/:id', async (request, reply) => {
     const id = request.params.id;
     const { title, description, status, priority, deadline } = request.body;
@@ -83,22 +91,26 @@ server.put('/tasks/:id', async (request, reply) => {
     return reply.status(204).send();
 });
 
+// Exclui uma tarefa
 server.delete('/tasks/:id', async (request, reply) => {
     const id = request.params.id;
     await database.delete_task(id);
     return reply.status(204).send();
 });
 
+// Lista usuários do quadro
 server.get('/board_users', async() => {
     return await database.list_board_users();
 })
 
+// Adiciona usuário ao quadro
 server.post('/board_users', async (request, reply) => {
     const {user_id, board_id, role} = request.body;
     await database.create_board_user({user_id, board_id, role});
     return reply.status(201).send();
 })
 
+// Atualiza usuários
 server.put('/board_users/:id', async (request, reply) => {
     const id = request.params.id;
     const {role} = request.body;
@@ -106,6 +118,7 @@ server.put('/board_users/:id', async (request, reply) => {
     return reply.status(204).send();
 })
 
+// Remove usuário do quadro
 server.delete('/board_users/:id', async (request, reply) => {
     const id = request.params.id;
     await database.delete_board_user(id);
